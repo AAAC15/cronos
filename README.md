@@ -7,9 +7,9 @@ las instrucciones
 
 peace
 
-- [montaje, instalación y desinstalación](#montaje-instalacion-y-desinstalación)
+- [montaje, instalación y desinstalación](#montaje-instalacion-y-desinstalacion)
 - [flags](#flags)
-- [cómo hacer fuentes](#cómo-hacer-fuentes)
+- [cómo hacer fuentes](#como-hacer-fuentes)
   
 ## montaje, instalacion y desinstalacion
 van a necesitar gcc para compilar en c justamente
