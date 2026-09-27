@@ -13,13 +13,24 @@
 // cargar fuentes
 char fontData[11][4][16]; // matriz de dibujo
 void chargeFont(const char* fontName) {
-    char route[256];
-    snprintf(route, sizeof(route), "layout/%s.cf", fontName); // armamos la ruta 
-    FILE *file = fopen (route, "r"); // abrimos archivo
+    char route[512];
+    FILE *file = NULL;
+
+    // intentar buscar en la ruta de instalacion global del sistema
+    snprintf(route, sizeof(route), "/usr/local/share/cronos/layout/%s.cf", fontName);
+    file = fopen(route, "r");
+
+    // si no existe globalmente buscar en la carpeta local
+    if (file == NULL) {
+        snprintf(route, sizeof(route), "layout/%s.cf", fontName);
+        file = fopen(route, "r");
+    }
+
+    // Si aun así no se encuentra en ninguna de las dos, tiramos error
     if (file == NULL){
-        printf("ERR1: Unknown Font: %s in %s \n", fontName, route);
+        printf("ERR1: Unknown Font: %s (Checked system and local paths)\n", fontName);
         return;
-    } // si no se encontro la fuente
+    }
     
     char line[256]; // reservamos espacio para la linea actual
     int currentDigit = -1; // no leimos ningun numero, por lo tanto es -1
@@ -51,7 +62,6 @@ void chargeFont(const char* fontName) {
     }
     fclose(file); 
 }
-
 // parseo de comando
 void commandParse(int argc, char *argv[], char *fontName, int *useFont) {
     for(int i = 1; i < argc; i++){
