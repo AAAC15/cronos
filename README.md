@@ -13,16 +13,16 @@ peace
   
 ## montaje, instalacion y desinstalacion
 van a necesitar gcc para compilar en c justamente
-tiene un makefile (vibecodeado, no los se hacer) con opcion de montaje y instalacion global
-*montaje y limpieza del mismo*
+  tiene un makefile (vibecodeado, no los se hacer) con opcion de montaje y instalacion global
+  *montaje y limpieza del mismo*
 ``` make ```
 montaje
 ``` make clean ```
 limpieza de montaje
 
-*instalacion global*
-```sudo make install```
-*DESinstalaciion*
+  *instalacion global* <br>
+```sudo make install``` <br>
+*DESinstalaciion* <br>
 ```sudo make uninstall```
 
 ## flags
@@ -31,13 +31,13 @@ limpieza de montaje
 si le erras con una flag se vuelve usuario de arch y te dice rtmf
 
 ## como hacer fuentes
-cree mi propia extension pq me aburria (.cf) qque significa cronos font
-tiene q ser una grilla 4y x 3x (4 alto, 3 ancho) JUSTA por cada letra
+cree mi propia extension pq me aburria (.cf) qque significa cronos font <br>
+tiene q ser una grilla 4y x 3x (4 alto, 3 ancho) JUSTA por cada letra <br>
 con justa me refiero a espacios para cumplir con la grilla
 
 para cada letra se usan cabeceras que se arrancan con ''', ejemplo:
-`''' 0 '''` 
-un ejemplo de fuente es el classic.cf que basicamente es la fuente default
+`''' 0 '''`  <br>
+un ejemplo de fuente es el classic.cf que basicamente es la fuente default <br>
 esta escrito asi para q usen de referencia:
 ```
 ''' classic.cf '''
@@ -62,5 +62,5 @@ esta escrito asi para q usen de referencia:
 ```
 ...
 
-y asi hasta el 9 y el :
+y asi hasta el 9 y el : <br>
 bueno eso, si recomiendan algo pasen consejos
