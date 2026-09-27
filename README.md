@@ -63,4 +63,6 @@ esta escrito asi para q usen de referencia:
 ...
 
 y asi hasta el 9 y el : <br>
+las fuentes se guardan en /usr/local/share/cronos/layout/nombre.cf o en la carpeta base en la que tengan instalado cronos, dentro de layout
+
 bueno eso, si recomiendan algo pasen consejos
