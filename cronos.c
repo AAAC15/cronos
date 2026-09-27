@@ -13,23 +13,26 @@
 // cargar fuentes
 char fontData[11][4][16]; // matriz de dibujo
 void chargeFont(const char* fontName) {
-    char route[512];
+    char globalRoute[512];
+    char localRoute[512];
     FILE *file = NULL;
 
-    // intentar buscar en la ruta de instalacion global del sistema
-    snprintf(route, sizeof(route), "/usr/local/share/cronos/layout/%s.cf", fontName);
-    file = fopen(route, "r");
+    // Armamos ambas rutas
+    snprintf(globalRoute, sizeof(globalRoute), "/usr/local/share/cronos/layout/%s.cf", fontName);
+    snprintf(localRoute, sizeof(localRoute), "layout/%s.cf", fontName);
 
+    // Intentar buscar en la ruta global del sistema
+    file = fopen(globalRoute, "r");
+    
     // si no existe globalmente buscar en la carpeta local
     if (file == NULL) {
-        snprintf(route, sizeof(route), "layout/%s.cf", fontName);
-        file = fopen(route, "r");
+        file = fopen(localRoute, "r");
     }
 
     // Si aun así no se encuentra en ninguna de las dos, tiramos error
     if (file == NULL){
-        printf("ERR1: Unknown Font: %s (Checked system and local paths)\n", fontName);
-        return;
+        printf("ERR1: Unknown Font: %s\n  -> Global Route: %s\n  -> Local Route:  %s\n", fontName, globalRoute, localRoute);
+        exit(1);
     }
     
     char line[256]; // reservamos espacio para la linea actual
@@ -91,6 +94,7 @@ int main(int argc, char *argv[]){
         chargeFont(fontName);
     }
     
+    int lastSs = -1; // para recordar el ultimo segundo  
     while(1){
         time_t actualTime; // creamos variable de tiempo
         time(&actualTime); // pedimos tiempo unix
@@ -101,41 +105,52 @@ int main(int argc, char *argv[]){
             continue;
         } 
         
-        int actualHh = timeInfo -> tm_hour; // hora
-        int actualMm = timeInfo -> tm_min; // minuto
-        int actualSs = timeInfo -> tm_sec; // segundo
+        int actualSs = timeInfo->tm_sec; // segundo actual
         
-        int tensHh = actualHh / 10; 
-        int unitHh = actualHh % 10;
-        int tensMm = actualMm / 10;
-        int unitMm = actualMm % 10;
-        int tensSs = actualSs / 10;
-        int unitSs = actualSs % 10;
-        
-        printf("\033[H\033[J"); // limpiamos pantalla
-        // print
-        printf("CRONOS CLOCK\n\n");
-        
-        if (useFont) {
-            for (int row = 0; row < 4; row++) {
-                printf("%s  %s  %s  %s  %s  %s  %s  %s\n", 
-                    fontData[tensHh][row],
-                    fontData[unitHh][row],
-                    fontData[10][row],
-                    fontData[tensMm][row],
-                    fontData[unitMm][row],
-                    fontData[10][row],
-                    fontData[tensSs][row],
-                    fontData[unitSs][row]
-                );
+        // si el ultimo segundo no es igual al actual, printeamos
+        if (actualSs != lastSs) {
+            lastSs = actualSs; // actualizamos el registro con el nuevo segundo
+            
+            int actualHh = timeInfo->tm_hour; // hora
+            int actualMm = timeInfo->tm_min; // minuto
+            
+            int tensHh = actualHh / 10; 
+            int unitHh = actualHh % 10;
+            int tensMm = actualMm / 10;
+            int unitMm = actualMm % 10;
+            int tensSs = actualSs / 10;
+            int unitSs = actualSs % 10;
+            
+            printf("\033[H\033[J"); // limpiamos pantalla
+            // print
+            printf("CRONOS CLOCK\n\n");
+            
+            if (useFont) {
+                for (int row = 0; row < 4; row++) {
+                    printf("%s  %s  %s  %s  %s  %s  %s  %s\n", 
+                        fontData[tensHh][row],
+                        fontData[unitHh][row],
+                        fontData[10][row],
+                        fontData[tensMm][row],
+                        fontData[unitMm][row],
+                        fontData[10][row],
+                        fontData[tensSs][row],
+                        fontData[unitSs][row]
+                    );
+                }
+            } else {
+                // modo texto plano si usaron --no-font
+                printf("%02d:%02d:%02d\n", actualHh, actualMm, actualSs);
             }
-        } else {
-            // modo texto plano si usaron --no-font
-            printf("%02d:%02d:%02d\n", actualHh, actualMm, actualSs);
+            
+            printf("\n");
         }
         
-        printf("\n");
-        
-        sleep(1);
+        // Pausa ligera de 50ms: consume 0% de CPU y chequea el segundo al instante
+        #ifdef _WIN32
+            Sleep(50);
+        #else
+            usleep(50000);
+        #endif
     }
 }
