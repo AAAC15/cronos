@@ -57,7 +57,7 @@ void chargeFont(const char* fontName) {
             }
             currentRow = 0; // reiniciamos currentrow
             continue;
-        }
+        } 
         if(currentDigit >= 0 && currentDigit <= 10 && currentRow < 4) {
             strncpy(fontData[currentDigit][currentRow], line, 15); 
             currentRow++;
@@ -74,8 +74,11 @@ void commandParse(int argc, char *argv[], char *fontName, int *useFont) {
             i++; // saltar al nombre de la fuente
         } else if(strcmp(argv[i], "--no-font") == 0) {
             *useFont = 0;            
+        } else if (strcmp(argv[i], "--help") == 0){
+          printf("--font [name]: Select Font \n--no-font: Plain Text format \n--help: See this guide");
+          exit(1);  
         } else {
-            printf("ERR2: Unknown Flag: RTFM!\n");
+            printf("ERR2: Unknown Flag: Use --help for more information\n");
             exit(1);
         }
     }
@@ -95,6 +98,7 @@ int main(int argc, char *argv[]){
     }
     
     int lastSs = -1; // para recordar el ultimo segundo  
+   
     while(1){
         time_t actualTime; // creamos variable de tiempo
         time(&actualTime); // pedimos tiempo unix
@@ -122,9 +126,8 @@ int main(int argc, char *argv[]){
             int unitSs = actualSs % 10;
             
             printf("\033[H\033[J"); // limpiamos pantalla
-            // print
-            printf("CRONOS CLOCK\n\n");
             
+            printf("\n");
             if (useFont) {
                 for (int row = 0; row < 4; row++) {
                     printf("%s  %s  %s  %s  %s  %s  %s  %s\n", 
@@ -143,9 +146,11 @@ int main(int argc, char *argv[]){
                 printf("%02d:%02d:%02d\n", actualHh, actualMm, actualSs);
             }
             
+            printf("\nCRONOS CLOCK\n\n");
             printf("\n");
         }
-        
+       
+           
         // Pausa ligera de 50ms: consume 0% de CPU y chequea el segundo al instante
         #ifdef _WIN32
             Sleep(50);
@@ -153,4 +158,5 @@ int main(int argc, char *argv[]){
             usleep(50000);
         #endif
     }
+    
 }
