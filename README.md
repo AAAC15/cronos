@@ -1,5 +1,8 @@
 # CRONOS
-relojuchi con figlets
+<p align="center">
+  <img src="img/gradient.png" width="600" alt="Cronos Clock con fuente gradient">
+</p>  
+relojuchi con figlets    <br>
 otro proyecto por los jajas, queria aprender como manejarme mejor en c y hice esto
 
 usa la libreria time para tooodo lo del tiempo, y bueno no tengo mucho q decir, les paso
