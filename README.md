@@ -26,9 +26,17 @@ limpieza de montaje
 ```sudo make uninstall```
 
 ## flags
-* `--font [nombre]` : elegir fuente
-* `--no-font` : formato plano
+* `--font [nombre]` : elegir fuente  
+* `--no-font` : formato plano  
+* `--help` : ayuda  
 si le erras con una flag se vuelve usuario de arch y te dice rtmf
+
+## fuentes
+las base estan en layout, y al momento de esta modificacion, hay 4  
+- `classic`: compuesta casi en su totalidad por #, es la predeterminada del reloj <br> esta buena para algo bien "sobrio"
+- `numerical`: como dice el nombre, esta compuesta por numeros, por ejemplo, el 0 esta hecho de 0s, el 1 de 1s, y asi <br> (es clon de la classic pero con esa modificacion)
+- `blocks`: esta hecha de bloques ansi (█). nunca esta demas meter algo con esos bloques, inspirado en las artes ansi viejas de los DOS
+- `gradient`: es un clon de blocks pero con bloques ansi de gradiente (░, ▒, ▓) mi personal favorita, alta facha
 
 ## como hacer fuentes
 cree mi propia extension pq me aburria (.cf) qque significa cronos font <br>
